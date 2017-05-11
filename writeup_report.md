@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 ---
 ### Files Submitted & Code Quality
 
-##### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 * clone.py containing the script to create and train the model
@@ -23,35 +23,35 @@ My project includes the following files:
 * model.h5 containing a trained convolution neural network 
 * writeup_report.md summarizing the results
 
-##### 2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```
 python drive.py model.h5
 ```
 
-##### 3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The clone.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 ### Model Architecture and Training Strategy
 
-##### 1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 My model consists of a convolution neural network with 5x5 filter sizes and depths of 6. I also used max pooling after each of the convolutional layers. The convolutional layers include RELU activation to introduce nonlinearity (`clone.py` lines 52-63) 
 
 The data is normalized beforehand in the model using a Keras lambda layer (`clone.py` line 54). The images are also cropped to cut out the parts of the image which are not necessary for determining steering angle (the hood of the car and the sky) (`clone.py` line 55) 
 
-##### 2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 I did not find it necessary to add a dropout layer for the purpose of reducing overfitting. 
 
 Howver The model was trained and validated on different data sets to ensure that the model was not overfitting. We held out a fifth of the data for validation (`clone.py` line 66) The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-##### 3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually (`clone.py` line 65).
 
-##### 4. Appropriate training data
+#### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. In my data set I utilized the images collected by the left, center and right images. 
 
@@ -59,7 +59,7 @@ For details about how I created the training data, see the next section.
 
 ### Model Architecture and Training Strategy
 
-##### 1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The overall strategy for deriving a model architecture was to first design the model after a more well known convolutional neural network, namely the Lenet-5 architecture. I thought this model might be appropriate because it is well known for its use in image recogniction.
 
@@ -73,7 +73,7 @@ At this point, the car ran relatively well, but would consistently fail at the f
 
 After training this updated model, the car was then able to traverse the track successfuly!
 
-##### 2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers in this order:
 	- convolution layer (`clone.py` line 56)
@@ -82,7 +82,7 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 	- max pooling layer (`clone.py` line 59)
 	- flatten and condensing layer (`clone.py` line 60-63)
 
-##### 3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I recorded two laps on track one using center lane driving. However, in the end I found that the driving in the provided training set was superior to my own, so I used that data set.
 
