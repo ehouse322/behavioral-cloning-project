@@ -4,6 +4,7 @@ import numpy as np
 
 lines = []
 
+# we first read the data from our driving_log.csv file
 with open('data/driving_log.csv') as csvfile:
   reader = csv.reader(csvfile)
   for line in reader:
@@ -12,6 +13,7 @@ with open('data/driving_log.csv') as csvfile:
 images = []
 measurements = []
 
+# here we augment the data, adding in the images for the left, right and center cameras. we also convert from BGR to RGB, and add in steering wheel angles with correction for the left and right angles.
 for line in lines[1:]:
   for i in range(3):
     source_path = line[i]
@@ -30,6 +32,7 @@ for line in lines[1:]:
 augmented_images = []
 augmented_measurements =[]
 
+# we augment the images by flipping them
 for image, measurement in zip(images, measurements):
   augmented_images.append(image)
   augmented_measurements.append(measurement)
@@ -48,22 +51,27 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Dropout
 from keras.layers.convolutional import Convolution2D, Cropping2D
 from keras.layers.pooling import MaxPooling2D
+from keras.utils import plot_model
 
+# we implement our model using keras
 model = Sequential()
+# before any layers, we normalize the data and crop the images
 model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=(160, 320, 3)))
 model.add(Cropping2D(cropping=((70, 25),(0,0))))
+# our model consists of two convolution layers with RELU activation and two max pooling layers followed by flatten and dense layers.
 model.add(Convolution2D(6, 5, 5, activation='relu'))
 model.add(MaxPooling2D())
-# model.add(Dropout(0.7))
 model.add(Convolution2D(6, 5, 5, activation='relu'))
 model.add(MaxPooling2D())
-# model.add(Dropout(0.7))
 model.add(Flatten(input_shape=(160, 320, 3)))
 model.add(Dense(120))
 model.add(Dense(84))
 model.add(Dense(1))
 
+# we use the adam optimizer, so that we do not need to set the learning rate manually.
 model.compile(optimizer='adam', loss='mse')
+# we keep 20% of the data for validation and shuffle the data.
 model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
 
+plot_model(model, to_file='model.png')
 model.save('model.h5')

@@ -10,7 +10,13 @@ The goals / steps of this project are the following:
 
 
 ### Rubric Points
-##### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+##### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.
+
+### Example Images
+
+![left camera](examples/left_camera.jpg)
+![middle camera](examples/middle_camera.jpg)
+![right camera](examples/right_camera.jpg)
 
 ---
 ### Files Submitted & Code Quality
@@ -32,6 +38,8 @@ python drive.py model.h5
 #### 3. Submission code is usable and readable
 
 The clone.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+
+In my case, it was not necessary to use a Python generator to generate the training data, because my GPU had enough memory to store all of the training data. However, if I were to have a larger training data set such that the GPU did not have enough memory, one method to solve this would be to use a Python generator. The generator works by loading and preprocessing data on the fly, so that it does not have take up storage space in the GPU.
 
 ### Model Architecture and Training Strategy
 
@@ -67,7 +75,7 @@ In order to gauge how well the model was working, I split my image and steering 
 
 On the first run, I found that the car consistently veered off to left pretty shortly after starting. To combat this, I chose to utilize the left and right camera images as well. In adding the left and right images I added a correction term to the steering wheel angle (`clone.py` line 26-28). I also added normalization of the data before running the convolutions. This did help the car stay on track longer, though not for a whole lap. 
 
-A new problem I noticed was that, while the car drove better, it had a harder time turning to the left than it did the right. For this reason, I made the corrent on that side slightly larger. 
+A new problem I noticed was that, while the car drove better, it had a harder time turning to the left than it did the right. For this reason, I made the correction on one side slightly larger than the other. 
 
 At this point, the car ran relatively well, but would consistently fail at the first turn following the bridge. I made two small adjustments to fix this. Prior to this point, I had set the number of epochs to just 3 for faster training. However, I was losing some accuracy because of this. So the first change I made was to increase the number of epochs to 5. The second thing  I saw was cv2's imread function read's the image as BGR as opposed to RGB, so I simply coverted the images from BGR to RGB using cv2's built in functionality. 
 
@@ -76,9 +84,9 @@ After training this updated model, the car was then able to traverse the track s
 #### 2. Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers in this order:
-	- convolution layer (`clone.py` line 56)
+	- convolution layer with RELU activation (`clone.py` line 56)
 	- max pooling layer (`clone.py` line 57)
-	- convolution layer (`clone.py` line 58)
+	- convolution layer with RELU activation (`clone.py` line 58)
 	- max pooling layer (`clone.py` line 59)
 	- flatten and condensing layer (`clone.py` line 60-63)
 
